@@ -1,0 +1,40 @@
+body {
+    background-image: url("/images/E.png");
+    background-color: rgb(25, 25, 25);
+}
+
+h1 {
+    font-family: "Segoe UI";
+    color: red;
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+    text-align: center;
+}
+
+a {
+    color: red;
+}
+
+.webimg {
+    width: 200px;
+    height: auto;
+    margin-left: 25%;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.centerpopout {
+    background-color: white;
+    opacity: 0.9;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
