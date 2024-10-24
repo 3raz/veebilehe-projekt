@@ -5,13 +5,17 @@ function getBaseLog(x, y) {
     return Math.log(y) / Math.log(x);
 }
 
+function roundToDecimals(value, decimals) {
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
+
 // Create a scene
 const scene = new THREE.Scene();
 
 // Create a camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5e-324, 10000000000);
 camera.rotation.x = -3.1415926535/2;
-camera.position.y = 0.01;
+camera.position.y = 10;
 
 // Create a renderer
 const renderer = new THREE.WebGLRenderer({
@@ -21,8 +25,13 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 var grids = {};
-for (let i = 100e10; i > 100e-10; i = i/10) {
+for (let i = 1; i <= 10e23; i = i*10) {
     grids[i] = new THREE.GridHelper(i, 10);
+    grids[i].material = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0
+    });
 }
 
 console.log(grids)
@@ -31,11 +40,11 @@ for  (const [key, value] of Object.entries(grids)) {
     scene.add(value);
 }
 
-// Create a geometry and a material, then combine them into a mesh
+// Cube
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+//scene.add(cube);
 
 let direction = {
     ArrowUp: false,
@@ -43,20 +52,19 @@ let direction = {
 };
 
 function moveCamera() {
-    if (direction.ArrowUp) camera.position.y -= camera.position.y/50;
-    if (direction.ArrowDown) camera.position.y += camera.position.y/50;
-    //console.log(camera.position.y)
-
-    //console.log(grids[2*10**Math.round(Math.log(camera.position.y))]);
-
+    if (direction.ArrowUp && camera.position.y>10) camera.position.y -= camera.position.y/16;
+    if (direction.ArrowDown) {
+        camera.position.y += camera.position.y/16;
+    }
 }
 
-function displayGrids(power) {
-    let index = 10**Math.round(getBaseLog(10,camera.position.y*10**10)/10**10)
-    grids[index/10].material.color.set(0x000000);
-    grids[index].material.color.set(0xFFFF00);
-    grids[index*10].material.color.set(0xFFFF00);
-    grids[index*100].material.color.set(0x000000);
+function displayGrids() {
+    let pow = getBaseLog(10,camera.position.y)
+    let index = 10**(Math.round(pow))
+
+    for (const [key, value] of Object.entries(grids)) {
+        grids[key].material.opacity = 1/(4*(camera.position.y/key));
+    }
 }
 
 window.addEventListener('keydown', (event) => {
@@ -73,7 +81,7 @@ function animate() {
     requestAnimationFrame(animate);
 
     moveCamera();
-    displayGrids(1);
+    displayGrids();
 
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
