@@ -45,8 +45,8 @@ let direction = {
 };
 
 function moveCamera() {
-    if (direction.ArrowUp) camera.position.y -= 10**(-3 + (camera.position.y));
-    if (direction.ArrowDown) camera.position.y += 10**(-3 + (camera.position.y));
+    if (direction.ArrowUp) camera.position.y -= camera.position.y/50;
+    if (direction.ArrowDown) camera.position.y += camera.position.y/50;
 
     if (camera.position.y > 150) {
         scene.remove(gridHelper3);
@@ -54,8 +54,6 @@ function moveCamera() {
     if (camera.position.y > 800) {
         scene.remove(gridHelper2);
     }
-
-    console.log(10**(camera.position.y * moveSpeed))
 }
 
 
