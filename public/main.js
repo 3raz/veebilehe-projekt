@@ -4,7 +4,7 @@ import * as THREE from 'three';
 const scene = new THREE.Scene();
 
 // Create a camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.001, 100000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5e-324, 10000000000);
 camera.rotation.x = -3.1415926535/2;
 camera.position.y = 0.01;
 
@@ -17,17 +17,20 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const gridHelper = new THREE.GridHelper(2000, 50);
-scene.add(gridHelper)
+var grids = [];
+for (let i = 20e10; i > 20e-10; i = i/10) {
+    grids.push(new THREE.GridHelper(i, 50, 0x4A7EB2, 0x4A7EB2));
+}
 
-const gridHelper2 = new THREE.GridHelper(200, 50);
-scene.add(gridHelper2)
+console.log(grids)
 
-const gridHelper3 = new THREE.GridHelper(20, 50);
-scene.add(gridHelper3)
+for  (let i = 0; i < grids.length; i++) {
+    scene.add(grids[i]);
+}
 
-const gridHelper4 = new THREE.GridHelper(2, 50);
-scene.add(gridHelper4)
+for  (let i = 0; i < grids.length; i++) {
+    grids[i].material.color.set(0xFF0000);
+}
 
 // Create a geometry and a material, then combine them into a mesh
 const geometry = new THREE.BoxGeometry();
@@ -47,13 +50,7 @@ let direction = {
 function moveCamera() {
     if (direction.ArrowUp) camera.position.y -= camera.position.y/50;
     if (direction.ArrowDown) camera.position.y += camera.position.y/50;
-
-    if (camera.position.y > 150) {
-        scene.remove(gridHelper3);
-    }
-    if (camera.position.y > 800) {
-        scene.remove(gridHelper2);
-    }
+    console.log(camera.position.y)
 }
 
 
