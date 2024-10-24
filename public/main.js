@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+// Funktsioonid mis kasutab puhtat javascripti
+function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
+}
+
 // Create a scene
 const scene = new THREE.Scene();
 
@@ -8,8 +13,6 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.rotation.x = -3.1415926535/2;
 camera.position.y = 0.01;
 
-
-
 // Create a renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
@@ -17,19 +20,15 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var grids = [];
-for (let i = 20e10; i > 20e-10; i = i/10) {
-    grids.push(new THREE.GridHelper(i, 50, 0x4A7EB2, 0x4A7EB2));
+var grids = {};
+for (let i = 100e10; i > 100e-10; i = i/10) {
+    grids[i] = new THREE.GridHelper(i, 10);
 }
 
 console.log(grids)
 
-for  (let i = 0; i < grids.length; i++) {
-    scene.add(grids[i]);
-}
-
-for  (let i = 0; i < grids.length; i++) {
-    grids[i].material.color.set(0xFF0000);
+for  (const [key, value] of Object.entries(grids)) {
+    scene.add(value);
 }
 
 // Create a geometry and a material, then combine them into a mesh
@@ -38,10 +37,6 @@ const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-var t = 1;
-
-
-let moveSpeed = 0.0000000001;
 let direction = {
     ArrowUp: false,
     ArrowDown: false,
@@ -50,9 +45,19 @@ let direction = {
 function moveCamera() {
     if (direction.ArrowUp) camera.position.y -= camera.position.y/50;
     if (direction.ArrowDown) camera.position.y += camera.position.y/50;
-    console.log(camera.position.y)
+    //console.log(camera.position.y)
+
+    //console.log(grids[2*10**Math.round(Math.log(camera.position.y))]);
+
 }
 
+function displayGrids(power) {
+    let index = 10**Math.round(getBaseLog(10,camera.position.y))
+    grids[index/10].material.color.set(0x000000);
+    grids[index].material.color.set(0xFFFF00);
+    grids[index*10].material.color.set(0xFFFF00);
+    grids[index*100].material.color.set(0x000000);
+}
 
 window.addEventListener('keydown', (event) => {
     direction[event.key] = true;
@@ -63,13 +68,12 @@ window.addEventListener('keyup', (event) => {
 });
 
 
-
-
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
 
     moveCamera();
+    displayGrids(1);
 
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
