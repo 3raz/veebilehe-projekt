@@ -52,7 +52,7 @@ function moveCamera() {
 }
 
 function displayGrids(power) {
-    let index = 10**Math.round(getBaseLog(10,camera.position.y))
+    let index = 10**Math.round(getBaseLog(10,camera.position.y*10**10)/10**10)
     grids[index/10].material.color.set(0x000000);
     grids[index].material.color.set(0xFFFF00);
     grids[index*10].material.color.set(0xFFFF00);
