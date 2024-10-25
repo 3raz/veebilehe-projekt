@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+// Konstantid ja gloab muutujad
+const OFFSET = -36;
+
+var pow = 0;
+
 // Funktsioonid mis kasutab puhtat javascripti
 function getBaseLog(x, y) {
     return Math.log(y) / Math.log(x);
@@ -13,7 +18,7 @@ function roundToDecimals(value, decimals) {
 const scene = new THREE.Scene();
 
 // Create a camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5e-324, 10000000000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5e-324, 10e128);
 camera.rotation.x = -3.1415926535/2;
 camera.position.y = 10;
 
@@ -24,8 +29,11 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+//Peida scroll bar
+document.body.style.overflow = 'hidden';
+
 var grids = {};
-for (let i = 1; i <= 10e23; i = i*10) {
+for (let i = 1; i <= 10e63; i = i*10) {
     grids[i] = new THREE.GridHelper(i, 10);
     grids[i].material = new THREE.LineBasicMaterial({
         color: 0xff0000,
@@ -40,11 +48,11 @@ for  (const [key, value] of Object.entries(grids)) {
     scene.add(value);
 }
 
-// Cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-//scene.add(cube);
+// Plancki pikkus
+const planckg = new THREE.BoxGeometry(0.1,0.1,1.6**(-35-OFFSET));
+const planckm = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const planck = new THREE.Mesh(planckg, planckm);
+scene.add(planck);
 
 let direction = {
     ArrowUp: false,
@@ -59,8 +67,8 @@ function moveCamera() {
 }
 
 function displayGrids() {
-    let pow = getBaseLog(10,camera.position.y)
-    let index = 10**(Math.round(pow))
+    pow = Math.round(getBaseLog(10,camera.position.y))
+    document.body.getElementsByClassName("scale")[0].innerText = pow+OFFSET;
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1/(4*(camera.position.y/key));
@@ -83,8 +91,8 @@ function animate() {
     moveCamera();
     displayGrids();
 
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    //planck.rotation.x += 0.01;
+    planck.rotation.y += 0.01;
 
     renderer.render(scene, camera);
 
