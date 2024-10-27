@@ -18,7 +18,7 @@ function roundToDecimals(value, decimals) {
 const scene = new THREE.Scene();
 
 // Create a camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5e-324, 10e128);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10e64);
 camera.rotation.x = -3.1415926535/2;
 camera.position.y = 10;
 
@@ -34,6 +34,7 @@ document.body.style.overflow = 'hidden';
 
 var grids = {};
 for (let i = 1; i <= 10e63; i = i*10) {
+    i = i.toPrecision(1);
     grids[i] = new THREE.GridHelper(i, 10);
     grids[i].material = new THREE.LineBasicMaterial({
         color: 0xff0000,
@@ -72,6 +73,7 @@ function displayGrids() {
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1/(4*(camera.position.y/key));
+        console.log(key, 1/(4*(camera.position.y/key)));
     }
 }
 
