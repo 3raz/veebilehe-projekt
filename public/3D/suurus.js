@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // Konstantid ja gloab muutujad
-const OFFSET = -17;
+const OFFSET = -16;
 
 var pow = 0;
 
@@ -50,7 +50,7 @@ for  (const [key, value] of Object.entries(grids)) {
 }
 
 // Plancki pikkus
-const planckg = new THREE.BoxGeometry(0.1**(-35-OFFSET),0.1**(-35-OFFSET),1.6**(-35-OFFSET));
+const planckg = new THREE.BoxGeometry(0.1**(-35+OFFSET),0.1**(-35+OFFSET),1.6**(-35+OFFSET));
 const planckm = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const planck = new THREE.Mesh(planckg, planckm);
 scene.add(planck);
