@@ -73,6 +73,9 @@ function displayGrids() {
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1/(4*(camera.position.y/key));
+        if (grids[key].material.opacity > 10) {
+            grids[key].material.opacity = 0;
+        }
         console.log(key, 1/(4*(camera.position.y/key)));
     }
 }
