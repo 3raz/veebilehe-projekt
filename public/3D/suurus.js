@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // Konstantid ja gloab muutujad
-const OFFSET = -36;
+const OFFSET = -17;
 
 var pow = 0;
 
@@ -18,9 +18,9 @@ function roundToDecimals(value, decimals) {
 const scene = new THREE.Scene();
 
 // Create a camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10e64);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 10e-21, 10e256);
 camera.rotation.x = -3.1415926535/2;
-camera.position.y = 10;
+camera.position.y = 10e-20;
 
 // Create a renderer
 const renderer = new THREE.WebGLRenderer({
@@ -33,7 +33,7 @@ document.body.appendChild(renderer.domElement);
 document.body.style.overflow = 'hidden';
 
 var grids = {};
-for (let i = 1; i <= 10e63; i = i*10) {
+for (let i = 10e-21; i <= 10e63; i = i*10) {
     i = i.toPrecision(1);
     grids[i] = new THREE.GridHelper(i, 10);
     grids[i].material = new THREE.LineBasicMaterial({
@@ -50,7 +50,7 @@ for  (const [key, value] of Object.entries(grids)) {
 }
 
 // Plancki pikkus
-const planckg = new THREE.BoxGeometry(0.1,0.1,1.6**(-35-OFFSET));
+const planckg = new THREE.BoxGeometry(0.1**(-35-OFFSET),0.1**(-35-OFFSET),1.6**(-35-OFFSET));
 const planckm = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const planck = new THREE.Mesh(planckg, planckm);
 scene.add(planck);
@@ -61,7 +61,7 @@ let direction = {
 };
 
 function moveCamera() {
-    if (direction.ArrowUp && camera.position.y>10) camera.position.y -= camera.position.y/16;
+    if (direction.ArrowUp && camera.position.y>10e-20) camera.position.y -= camera.position.y/16;
     if (direction.ArrowDown) {
         camera.position.y += camera.position.y/16;
     }
@@ -76,7 +76,6 @@ function displayGrids() {
         if (grids[key].material.opacity > 10) {
             grids[key].material.opacity = 0;
         }
-        console.log(key, 1/(4*(camera.position.y/key)));
     }
 }
 
