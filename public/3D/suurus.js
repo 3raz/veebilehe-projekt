@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // Konstantid ja gloab muutujad
-const OFFSET = -16;
+const OFFSET = -20;
 
 var pow = 0;
 
@@ -20,7 +20,7 @@ const scene = new THREE.Scene();
 // Create a camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 10e-21, 10e256);
 camera.rotation.x = -3.1415926535/2;
-camera.position.y = 10e-20;
+camera.position.y = 5e-19;
 
 // Create a renderer
 const renderer = new THREE.WebGLRenderer({
@@ -33,7 +33,7 @@ document.body.appendChild(renderer.domElement);
 document.body.style.overflow = 'hidden';
 
 var grids = {};
-for (let i = 10e-21; i <= 10e63; i = i*10) {
+for (let i = 10e-20; i <= 10e63; i = i*10) {
     i = i.toPrecision(1);
     grids[i] = new THREE.GridHelper(i, 10);
     grids[i].material = new THREE.LineBasicMaterial({
@@ -49,11 +49,13 @@ for  (const [key, value] of Object.entries(grids)) {
     scene.add(value);
 }
 
-// Plancki pikkus
-const planckg = new THREE.BoxGeometry(0.00001*(10**OFFSET),0.00001*(10**OFFSET),0.00016*(10**OFFSET));
-const planckm = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const planck = new THREE.Mesh(planckg, planckm);
-scene.add(planck);
+// OBJEKTI OSA //
+
+// Quarki pikkus
+const quarkg = new THREE.SphereGeometry( 10e-20/2, 32, 16 ); 
+const quarkm = new THREE.MeshBasicMaterial( { color: 0x22ff55 } ); 
+const quark = new THREE.Mesh( quarkg, quarkm ); 
+scene.add( quark );
 
 let direction = {
     ArrowUp: false,
@@ -61,15 +63,17 @@ let direction = {
 };
 
 function moveCamera() {
-    if (direction.ArrowUp && camera.position.y>10e-20) camera.position.y -= camera.position.y/16;
+    if (direction.ArrowUp && camera.position.y>5e-19) camera.position.y -= camera.position.y/16;
     if (direction.ArrowDown) {
         camera.position.y += camera.position.y/16;
     }
 }
 
+var objects = {"-18": "Electron"}
+
 function displayGrids() {
     pow = Math.round(getBaseLog(10,camera.position.y))
-    document.body.getElementsByClassName("scale")[0].innerText = pow+OFFSET;
+    document.body.getElementsByClassName("scale")[0].innerText = pow + " " + objects[pow.toString()];
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1/(4*(camera.position.y/key));
@@ -94,9 +98,6 @@ function animate() {
 
     moveCamera();
     displayGrids();
-
-    //planck.rotation.x += 0.01;
-    planck.rotation.y += 0.01;
 
     renderer.render(scene, camera);
 
