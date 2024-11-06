@@ -1,0 +1,15 @@
+.info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.scale {
+    font-size: 75%;
+}
