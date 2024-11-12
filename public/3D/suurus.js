@@ -69,7 +69,14 @@ function moveCamera() {
     }
 }
 
-var objects = {"-18": "Electron"}
+var objects = {
+    "-18": "Electron",
+    "-9": "2018+ transistorid",
+    "-8": "2000-2018 pärimad transistorid",
+    "-7": "1990s pärimad transistorid",
+    "-6": "1980s pärimad transistorid",
+    "-5": "1970s pärimad transistorid",
+}
 
 function displayGrids() {
     pow = Math.round(getBaseLog(10,camera.position.y))
