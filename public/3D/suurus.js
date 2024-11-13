@@ -62,6 +62,43 @@ let direction = {
     ArrowDown: false,
 };
 
+
+
+
+// Create a texture loader so we can load our image file
+var loader = new THREE.TextureLoader();
+
+// Load an image file into a custom material
+var material = new THREE.MeshLambertMaterial({
+  map: loader.load('https://s3.amazonaws.com/duhaime/blog/tsne-webgl/assets/cat.jpg')
+});
+
+// create a plane geometry for the image with a width of 10
+// and a height that preserves the image's aspect ratio
+var geometry = new THREE.PlaneGeometry(10, 10*.75);
+
+// combine our image geometry and material into a mesh
+var mesh = new THREE.Mesh(geometry, material);
+camera.position.y = 100;
+
+// set the position of the image mesh in the x,y,z dimensions
+mesh.position.set(0,0,0)
+mesh.rotation.x = -3.1415926535/2;
+
+// add the image to the scene
+scene.add(mesh);
+
+
+var light = new THREE.PointLight( 0xffffff, 100, 0 );
+
+// Specify the light's position
+light.position.set(1, 1, 100 );
+
+// Add the light to the scene
+scene.add(light)
+
+
+
 function moveCamera() {
     if (direction.ArrowUp && camera.position.y>5e-19) camera.position.y -= camera.position.y/16;
     if (direction.ArrowDown) {
