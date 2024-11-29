@@ -28,24 +28,12 @@ ToomasPlank.position.z = 0;
 ToomasPlank.position.x = 0;
 
 
-/**
-* Lights
-**/
-
-// Add a point light with #fff color, .7 intensity, and 0 distance
 var light = new THREE.PointLight( 0xffffff, 1, 0 );
 
-// Specify the light's position
 light.position.set(1, 1, 100 );
 
-// Add the light to the scene
 scene.add(light)
 
-/**
-* Render!
-**/
-
-// The main animation function that re-renders the scene each animation frame
 function animate() {
 requestAnimationFrame( animate );
 ToomasPlank.rotation.y += 0.01;
