@@ -1,6 +1,4 @@
 import * as THREE from 'three';
-import {TextGeometry} from 'three\\examples\\jsm\\geometries\\TextGeometry.js'
-import { FontLoader } from 'three\\examples\\jsm\\loaders\\FontLoader';
 
 // Konstantid ja gloab muutujad
 var pow = 0;
