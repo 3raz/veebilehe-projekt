@@ -13,8 +13,8 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 10e-21, 10e256);
 camera.rotation.x = -3.1415926535 / 2;
-//camera.position.y = 3e-15;
-camera.position.y = 100;
+camera.position.y = 3e-15;
+
 
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
