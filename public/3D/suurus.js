@@ -13,7 +13,8 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 10e-21, 10e256);
 camera.rotation.x = -3.1415926535 / 2;
-camera.position.y = 3e-15;
+//camera.position.y = 3e-15;
+camera.position.y = 100;
 
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
@@ -108,20 +109,44 @@ scene.add(transistor);
 
 // Nõel
 const needleTexture = new THREE.TextureLoader().load(require('../assets/images/needle.png'));
-const needle = new THREE.Mesh(new THREE.BoxGeometry(3.5e-2, 3.5e-2, 3.5e-2), new THREE.MeshBasicMaterial({ map: needleTexture }));
+const needle = new THREE.Mesh(new THREE.BoxGeometry(2.25e-2, 2.25e-2, 2.25e-2), new THREE.MeshBasicMaterial({ map: needleTexture }));
 scene.add(needle);
-
-// Kass
-const catTexture = new THREE.TextureLoader().load(require('../assets/images/cat.png'));
-const cat = new THREE.Mesh(new THREE.BoxGeometry(4e-1, 4e-1, 4e-1), new THREE.MeshBasicMaterial({ map: catTexture }));
-cat.position.x = -0.45e0;
-scene.add(cat);
 
 // Inimene (Toomas Plank)
 const plankTexture = new THREE.TextureLoader().load(require('../assets/images/plank.png'));
-const plank = new THREE.Mesh(new THREE.BoxGeometry(1.8e0, 1.8e0, 1.8e0), new THREE.MeshBasicMaterial({ map: plankTexture }));
-plank.position.x = 1.9e0;
-scene.add(plank);
+const plank = new THREE.Mesh(
+    new THREE.BoxGeometry( 1.8e0, 1.8e0, 1.8e0 ),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: plankTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);	
+plank.position.x = 1.8e0
+scene.add( plank );
+
+
+// Kass
+const catTexture = new THREE.TextureLoader().load(require('../assets/images/cat.png'));
+const cat = new THREE.Mesh(
+    new THREE.BoxGeometry(4e-1, 4e-1, 4e-1),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: catTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);	
+cat.position.x = -4e-1
+scene.add( cat );
+
 
 // Üks meetri suurus
 const meterg = new THREE.BoxGeometry(0.03, 0.03, 1);
@@ -129,6 +154,16 @@ const meterm = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const meter = new THREE.Mesh(meterg, meterm);
 scene.add(meter);
 meter.position.x = 1;
+
+// Meie maailm. Korrutatakse 1,1-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,1.
+const earthTexture = new THREE.TextureLoader().load(require('../assets/images/earth.png'));
+const earth = new THREE.Mesh(new THREE.BoxGeometry(1.2756e7*1.1, 1.2756e7*1.1, 1.2756e7*1.1), new THREE.MeshBasicMaterial({ map: earthTexture }));
+scene.add(earth);
+
+// Päike. Korrutatakse 1,2-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,2.
+const sunTexture = new THREE.TextureLoader().load(require('../assets/images/sun.png'));
+const sun = new THREE.Mesh(new THREE.BoxGeometry(1.39e9*1.2, 1.39e9*1.2, 1.39e9*1.2), new THREE.MeshBasicMaterial({ map: sunTexture }));
+scene.add(sun);
 
 // Klahvid, mis juhatavad keeramist
 let direction = {
@@ -142,12 +177,21 @@ function moveCamera() {
     if (direction.ArrowDown) {
         camera.position.y += camera.position.y / 16;
     }
-    plank.rotation.z = -Math.atan(camera.position.y / plank.position.x);
-    cat.rotation.z = -Math.atan(camera.position.y / cat.position.x);
+    
+    
     helium.rotation.z = -Math.atan(camera.position.y / helium.position.x);
     dna.rotation.x = Math.atan(camera.position.y / dna.position.z);
     glucose.rotation.x = Math.atan(camera.position.y / glucose.position.z);
-}
+};
+
+// Info
+var boundaries = {
+    2.25e-2: needle,
+    1.40316e7: earth,
+    1.668e9: sun,
+    1.8e0: plank,
+    4e-1: cat
+};
 
 // Info, mis tekib ülemisel hallil ribal
 var objects = {
@@ -164,17 +208,28 @@ var objects = {
     "-5": "1970s pärimad transistorid",
     "-1": "Koduloomad",
     "0": "Inimesed, Toomas Plank",
+    "7": "Earth",
 }
 
 // Funktsioon, mis värskendab punaste ruudude läbipaistmatuse
 function displayGrids() {
-    pow = Math.round(getBaseLog(10, camera.position.y))
+    pow = Math.round(getBaseLog(10, camera.position.y))-1
     document.body.getElementsByClassName("scale")[0].innerText = pow + " " + objects[pow.toString()];
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1 / (4 * (camera.position.y / key));
         if (grids[key].material.opacity > 10) {
             grids[key].material.opacity = 0;
+        }
+    }
+}
+
+function updateVisibility() {
+    for (const [key, value] of Object.entries(boundaries)) {
+        if (key > camera.position.y*50) {
+            boundaries[key].position.y = 0; 
+        } else {
+            boundaries[key].position.y = -key/2; 
         }
     }
 }
@@ -195,6 +250,7 @@ function animate() {
 
     moveCamera();
     displayGrids();
+    updateVisibility();
 
     renderer.render(scene, camera);
 
