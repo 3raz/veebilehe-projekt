@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    background-color: rgb(30, 30, 30);
+    background-color: rgba(30, 30, 30, 0.7);
     padding: 0.5%;
     padding-left: 0.25%;
     padding-right: 0.25%;
@@ -16,17 +16,20 @@ body {
     margin-bottom: 0.5%;
     margin-left: 20%;
     margin-right: 20%;
+    z-index: 1;
 }
 
 .container2 {
     text-align: center;
     margin-top: 5%;
     margin-bottom: 5%;
+    z-index: 1;
 }
 
 .container3 {
     text-align: center;
     margin-top: 20%;
+    z-index: 1;
 
 }
 
@@ -49,4 +52,12 @@ h2 {
 
 p {
     margin-bottom: 10px;
+}
+    
+img {
+    display: block;
+    right: 0;
+    float: right;
+    position: absolute;
+    z-index: -1;
 }

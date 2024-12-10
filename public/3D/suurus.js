@@ -199,13 +199,108 @@ meter.position.x = 1;
 
 // Meie maailm. Korrutatakse 1,1-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,1.
 const earthTexture = new THREE.TextureLoader().load(require('../assets/images/earth.png'));
-const earth = new THREE.Mesh(new THREE.BoxGeometry(1.2756e7*1.1, 1.2756e7*1.1, 1.2756e7*1.1), new THREE.MeshBasicMaterial({ map: earthTexture }));
+const earth = new THREE.Mesh(new THREE.BoxGeometry(1.27e7*1.1, 1.27e7*1.1, 1.27e7*1.1), new THREE.MeshBasicMaterial({ map: earthTexture }));
 scene.add(earth);
 
 // Päike. Korrutatakse 1,2-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,2.
 const sunTexture = new THREE.TextureLoader().load(require('../assets/images/sun.png'));
 const sun = new THREE.Mesh(new THREE.BoxGeometry(1.39e9*1.2, 1.39e9*1.2, 1.39e9*1.2), new THREE.MeshBasicMaterial({ map: sunTexture }));
 scene.add(sun);
+
+
+// pollux
+const polluxTexture = new THREE.TextureLoader().load(require('../assets/images/pollux.png'));
+const pollux = new THREE.Mesh(
+    new THREE.BoxGeometry(1.22e10, 1.22e10, 1.22e10),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: polluxTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);	
+pollux.position.x = 2.22e10;
+scene.add( pollux );
+
+// sagittarius
+const sagittariusg = new THREE.SphereGeometry(2.547e10 / 2, 32, 16);
+const sagittariusm = new THREE.MeshBasicMaterial({ color: 0x111111 });
+const sagittarius = new THREE.Mesh(sagittariusg, sagittariusm);
+sagittarius.position.x = -2.4e10
+scene.add(sagittarius);
+
+camera.position.y = 10e20
+
+// Pistol täht
+const pistolTexture = new THREE.TextureLoader().load(require('../assets/images/pistol.png'));
+const pistol = new THREE.Mesh(
+    new THREE.BoxGeometry(4.25e11*1.1, 4.25e11*1.1, 4.25e11*1.1),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: pistolTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);	
+pistol.position.z = -5.25e11/1.2;
+scene.add( pistol );
+
+// Stephenson 2-18
+const stephensonTexture = new THREE.TextureLoader().load(require('../assets/images/stephenson.png'));
+const stephenson = new THREE.Mesh(
+    new THREE.BoxGeometry(3e12, 3e12, 3e12),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: stephensonTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);
+stephenson.position.z = 4e12/1.5;
+scene.add( stephenson );
+
+// ton must auk
+const tong = new THREE.SphereGeometry(3.9e14 / 2, 32, 16);
+const tonm = new THREE.MeshBasicMaterial({ color: 0x111111 });
+const ton = new THREE.Mesh(tong, tonm);
+scene.add(ton);
+
+
+// Milkyway
+const milkywayTexture = new THREE.TextureLoader().load(require('../assets/images/milkyway.png'));
+const milkyway = new THREE.Mesh(
+    new THREE.BoxGeometry(1e21*1.1, 1e21*1.1, 1e21*1.1),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: milkywayTexture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);
+scene.add( milkyway );
+
+// Observable universe
+const helixTexture = new THREE.TextureLoader().load(require('../assets/images/helix.png'));
+const helix = new THREE.Mesh(new THREE.BoxGeometry(2.46e16, 2.46e16, 2.46e16), new THREE.MeshBasicMaterial({ map: helixTexture }));
+scene.add(helix);
+
+// Observable universe
+const universeTexture = new THREE.TextureLoader().load(require('../assets/images/universe.png'));
+const universe = new THREE.Mesh(new THREE.BoxGeometry(8.79e26, 8.79e26, 8.79e26), new THREE.MeshBasicMaterial({ map: universeTexture }));
+scene.add(universe);
+
 
 // Klahvid, mis juhatavad keeramist
 let direction = {
@@ -216,7 +311,7 @@ let direction = {
 // Kõike, mis kaamera liigutamiseks nooleklahvide vajutamisel juhtuma peab
 function moveCamera() {
     if (direction.ArrowUp && camera.position.y > 5e-15) camera.position.y -= camera.position.y / 16;
-    if (direction.ArrowDown && camera.position.y < 5e9) {
+    if (direction.ArrowDown && camera.position.y < 9.9e26) {
         camera.position.y += camera.position.y / 16;
     }
     
@@ -236,7 +331,11 @@ var boundaries = {
     1.8e0: plank,
     4e-1: cat,
     1.44e-2: f004,
-    3.55e-2: i9
+    3.55e-2: i9,
+    1.22e10: pollux,
+    4.625e11: pistol,
+    3e12: stephenson,
+    1.1e21: milkyway
 };
 
 // Info, mis tekib ülemisel hallil ribal
@@ -266,9 +365,23 @@ var objects = {
     "7": "Maakera",
     "8": "",
     "9": "Päike",
-    "10": "",
-    "11": "",
+    "10": "Pollux, sagittarius A",
+    "11": "Pistol täht, Stephenson 2-18",
     "12": "",
+    "13": "",
+    "14": "Ton 618",
+    "15": "",
+    "16": "Helix udukogu",
+    "17": "",
+    "18": "",
+    "19": "",
+    "20": "",
+    "21": "Piimatee",
+    "22": "",
+    "23": "",
+    "24": "",
+    "25": "",
+    "26": "Vaadeldav universum",
 };
 
 // Funktsioon, mis värskendab punaste ruudude läbipaistmatuse
