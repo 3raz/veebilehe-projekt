@@ -232,8 +232,6 @@ const sagittarius = new THREE.Mesh(sagittariusg, sagittariusm);
 sagittarius.position.x = -2.4e10
 scene.add(sagittarius);
 
-camera.position.y = 10e20
-
 // Pistol täht
 const pistolTexture = new THREE.TextureLoader().load(require('../assets/images/pistol.png'));
 const pistol = new THREE.Mesh(
