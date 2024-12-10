@@ -30,6 +30,8 @@ var light = new THREE.PointLight( 0xffffff, 1, 0 );
 light.position.set(1, 1, 100 );
 scene.add(light)
 
+
+
 // Keerab kassikuubiku 
 function animate() {
 requestAnimationFrame( animate );

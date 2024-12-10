@@ -13,7 +13,7 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 10e-21, 10e256);
 camera.rotation.x = -3.1415926535 / 2;
-camera.position.y = 3e-15;
+camera.position.y = 5e-15;
 
 
 const renderer = new THREE.WebGLRenderer({
@@ -55,7 +55,7 @@ neutron.position.x = 1e-15
 const protong = new THREE.SphereGeometry(1.75e-15 / 2, 32, 16);
 const protonm = new THREE.MeshBasicMaterial({ color: 0xE43436 });
 const proton = new THREE.Mesh(protong, protonm);
-proton.position.x = -1.75e-15
+proton.position.x = -1.75e-15;
 scene.add(proton);
 
 // Uraani tuum
@@ -70,30 +70,36 @@ scene.add(gamma);
 
 // Vesiniku aatom
 const heliumTexture = new THREE.TextureLoader().load(require('../assets/images/helium.png'));
-const helium = new THREE.Mesh(new THREE.BoxGeometry(3.1e-12, 3.1e-12, 3.1e-12), new THREE.MeshBasicMaterial({ map: heliumTexture }));
+const helium = new THREE.Mesh(new THREE.BoxGeometry(6.2e-11, 6.2e-11, 6.2e-11), new THREE.MeshBasicMaterial({ map: heliumTexture }));
 helium.position.x = 6e-12;
 scene.add(helium);
 
 // Frantsiumi aatom
 const franciumTexture = new THREE.TextureLoader().load(require('../assets/images/francium.svg'));
-const francium = new THREE.Mesh(new THREE.BoxGeometry(2.7e-11, 2.7e-11, 2.7e-11), new THREE.MeshBasicMaterial({ map: franciumTexture }));
+const francium = new THREE.Mesh(new THREE.BoxGeometry(5e-10, 5e-10, 5e-10), new THREE.MeshBasicMaterial({ map: franciumTexture }));
 scene.add(francium);
+
+// Cesium atom
+const cesiumTexture = new THREE.TextureLoader().load(require('../assets/images/cesium.png'));
+const cesium = new THREE.Mesh(new THREE.BoxGeometry(5.24e-10, 5.24e-10, 5.24e-10), new THREE.MeshBasicMaterial({ map: cesiumTexture }));
+cesium.position.x = -8.24e-10;
+scene.add(cesium);
 
 // Griipiviirus
 const fluTexture = new THREE.TextureLoader().load(require('../assets/images/flu.png'));
-const flu = new THREE.Mesh(new THREE.BoxGeometry(1.2e-10, 1.2e-10, 1.2e-10), new THREE.MeshBasicMaterial({ map: fluTexture }));
+const flu = new THREE.Mesh(new THREE.BoxGeometry(1.2e-7, 1.2e-7, 1.2e-7), new THREE.MeshBasicMaterial({ map: fluTexture }));
 scene.add(flu);
 
 // Glükoos
 const glucoseTexture = new THREE.TextureLoader().load(require('../assets/images/glucose.png'));
 const glucose = new THREE.Mesh(new THREE.BoxGeometry(1e-9, 1e-9, 1e-9), new THREE.MeshBasicMaterial({ map: glucoseTexture }));
-glucose.position.z = -1.5e-9;
+glucose.position.z = -2.5e-9;
 scene.add(glucose);
 
 // DNA
 const dnaTexture = new THREE.TextureLoader().load(require('../assets/images/dna.png'));
 const dna = new THREE.Mesh(new THREE.BoxGeometry(2e-9, 2e-9, 2e-9), new THREE.MeshBasicMaterial({ map: dnaTexture }));
-dna.position.z = 1.9e-9;
+dna.position.z = 2.9e-9;
 scene.add(dna);
 
 // Ecolibakteerium
@@ -112,6 +118,42 @@ const needleTexture = new THREE.TextureLoader().load(require('../assets/images/n
 const needle = new THREE.Mesh(new THREE.BoxGeometry(2.25e-2, 2.25e-2, 2.25e-2), new THREE.MeshBasicMaterial({ map: needleTexture }));
 scene.add(needle);
 
+// Intel 4004. Korrutatakse 1,2-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,2.
+const f004Texture = new THREE.TextureLoader().load(require('../assets/images/4004.png'));
+const f004 = new THREE.Mesh(
+    new THREE.BoxGeometry( 1.2e-2*1.2, 1.2e-2*1.2, 1.2e-2*1.2 ),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: f004Texture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);
+f004.position.z = 3e-2;
+scene.add( f004 );
+
+
+// Intel 4004. Korrutatakse 1,2-ga, kuna pilt ei veni kuubi servadeni. Selle lahknevuse korvamiseks ja suuruse lehe täpsemaks muutmiseks arvutati 1,2.
+const i9Texture = new THREE.TextureLoader().load(require('../assets/images/i9.png'));
+const i9 = new THREE.Mesh(
+    new THREE.BoxGeometry( 3.55e-2, 3.55e-2, 3.55e-2 ),
+    
+[   
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {map: i9Texture} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+    new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
+]
+);
+i9.position.z = -3e-2;
+scene.add( i9 );
+
+
 // Inimene (Toomas Plank)
 const plankTexture = new THREE.TextureLoader().load(require('../assets/images/plank.png'));
 const plank = new THREE.Mesh(
@@ -126,7 +168,7 @@ const plank = new THREE.Mesh(
     new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
 ]
 );	
-plank.position.x = 1.8e0
+plank.position.x = 1.8e0;
 scene.add( plank );
 
 
@@ -144,7 +186,7 @@ const cat = new THREE.Mesh(
     new THREE.MeshBasicMaterial( {color: 0x000000,  opacity:0} ),
 ]
 );	
-cat.position.x = -4e-1
+cat.position.x = -4e-1;
 scene.add( cat );
 
 
@@ -173,8 +215,8 @@ let direction = {
 
 // Kõike, mis kaamera liigutamiseks nooleklahvide vajutamisel juhtuma peab
 function moveCamera() {
-    if (direction.ArrowUp && camera.position.y > 3e-15) camera.position.y -= camera.position.y / 16;
-    if (direction.ArrowDown) {
+    if (direction.ArrowUp && camera.position.y > 5e-15) camera.position.y -= camera.position.y / 16;
+    if (direction.ArrowDown && camera.position.y < 5e9) {
         camera.position.y += camera.position.y / 16;
     }
     
@@ -182,6 +224,8 @@ function moveCamera() {
     helium.rotation.z = -Math.atan(camera.position.y / helium.position.x);
     dna.rotation.x = Math.atan(camera.position.y / dna.position.z);
     glucose.rotation.x = Math.atan(camera.position.y / glucose.position.z);
+    flu.rotation.z = -Math.atan(camera.position.y / flu.position.x);
+    cesium.rotation.z = -Math.atan(camera.position.y / cesium.position.x);
 };
 
 // Info
@@ -190,31 +234,49 @@ var boundaries = {
     1.40316e7: earth,
     1.668e9: sun,
     1.8e0: plank,
-    4e-1: cat
+    4e-1: cat,
+    1.44e-2: f004,
+    3.55e-2: i9
 };
 
 // Info, mis tekib ülemisel hallil ribal
 var objects = {
-    "-18": "Elektron",
     "-15": "Prooton, neutron",
     "-14": "Uraani tuum",
-    "-12": "Vesiniku aatom, gammakiirgus",
-    "-11": "Frantsiumi aatom",
-    "-10": "Gripiviirus",
+    "-13": "",
+    "-12": "Gammakiirgus",
+    "-11": "Vesiniku aatom",
+    "-10": "Frantsiumi aatom, Cesium aatom",
     "-9": "2018+ transistorid, DNA pikkus, glükoosi suurus",
     "-8": "2000-2018 pärimad transistorid",
-    "-7": "1990s pärimad transistorid",
+    "-7": "1990s pärimad transistorid, Gripiviirus",
     "-6": "1980s pärimad transistorid, Ecolibakteerium",
     "-5": "1970s pärimad transistorid",
+    "-4": "",
+    "-3": "",
+    "-2": "CPU-d, nõelad",
     "-1": "Koduloomad",
     "0": "Inimesed, Toomas Plank",
-    "7": "Earth",
-}
+    "1": "",
+    "2": "",
+    "3": "",
+    "4": "",
+    "5": "",
+    "6": "",
+    "7": "Maakera",
+    "8": "",
+    "9": "Päike",
+    "10": "",
+    "11": "",
+    "12": "",
+};
 
 // Funktsioon, mis värskendab punaste ruudude läbipaistmatuse
 function displayGrids() {
     pow = Math.round(getBaseLog(10, camera.position.y))-1
-    document.body.getElementsByClassName("scale")[0].innerText = pow + " " + objects[pow.toString()];
+    document.body.getElementsByClassName("scale")[0].innerText = pow;
+    document.body.getElementsByClassName("current_objects")[0].innerText = objects[pow.toString()];
+    
 
     for (const [key, value] of Object.entries(grids)) {
         grids[key].material.opacity = 1 / (4 * (camera.position.y / key));
